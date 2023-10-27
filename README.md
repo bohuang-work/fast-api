@@ -1,6 +1,45 @@
-# fast-api
+# Fast API
 
-    FastAPI is a very fast (high-performance) web framework.
-    * It has "Starlette" work as Asynchronous serive framework work under the hood. "Starlette" not only allows multiple incoming events and outgoing events for each application, but also allows for a background coroutine so the application can do other things
-    * It use "Pydantic", which enforces type of the input/output of your endpoints, and provide friendly error when data is invalid.
-    * fully compatible with the open standards for APIs: OpenAPI (previously known as Swagger) and JSON Schema.
+RESTful-api implemented using Fast-API framework, followed by hexagon structure.
+DB: postgreSQL
+
+## pre installation
+
+- Docker
+- Python >= 3.8
+
+## setup
+
+1. create a python virtual environment and activate it:
+
+```
+   python3 -m venv venv
+   source venv/bin/activate
+```
+
+2. install poetry
+
+```
+   python3 -m pip install poetry
+```
+
+3. install all dependencies using poetry:
+
+```
+   cd /fast-api/backend
+   poetry install
+```
+
+4. run postgeSQL using docker compose:
+
+```
+   cd /docker
+   docker-compose up
+```
+
+5. run backend service:
+
+```
+   cd /fast-api/backend/src
+   ./cmd/run.sh
+```
