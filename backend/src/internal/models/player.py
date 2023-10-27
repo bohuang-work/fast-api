@@ -1,8 +1,7 @@
 from uuid import UUID
 
 from pydantic import BaseModel
-from sqlalchemy.orm import (DeclarativeBase, Mapped, MappedAsDataclass,
-                            mapped_column)
+from sqlalchemy.orm import DeclarativeBase, Mapped, MappedAsDataclass, mapped_column
 
 
 # Database model

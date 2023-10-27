@@ -1,8 +1,13 @@
 from uuid import UUID
 
-from internal.models.player import (PlayerCreateRequest, PlayerCreateResponse,
-                                    PlayerDeleteResponse, PlayerFindResponse,
-                                    PlayerUpdateRequest, PlayerUpdateResponse)
+from internal.models.player import (
+    PlayerCreateRequest,
+    PlayerCreateResponse,
+    PlayerDeleteResponse,
+    PlayerFindResponse,
+    PlayerUpdateRequest,
+    PlayerUpdateResponse,
+)
 from internal.repos.player import PlayerDB, PlayerRepo
 
 

@@ -5,8 +5,7 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from internal.configs.postgresql import (PostgresqlConfig,
-                                         load_postgresql_config)
+from internal.configs.postgresql import PostgresqlConfig, load_postgresql_config
 
 
 def get_engine(
@@ -15,7 +14,9 @@ def get_engine(
     scheme: str = "postgresql+pg8000"
     password_encoded: str = urllib.parse.quote_plus(config.password)  # pyright: ignore
     url: str = f"{scheme}://{config.user}:{password_encoded}@{config.host}:{config.port}/{config.database}"
-    logging.info(f"Connecting to {scheme}://{config.user}:*****@{config.host}:{config.port}/{config.database}")
+    logging.info(
+        f"Connecting to {scheme}://{config.user}:*****@{config.host}:{config.port}/{config.database}"
+    )
     return create_engine(url, echo=config.echo)
 
 

@@ -5,9 +5,14 @@ from fastapi.param_functions import Depends
 from fastapi.routing import APIRouter
 from sqlalchemy.orm.session import Session
 
-from internal.models.player import (PlayerCreateRequest, PlayerCreateResponse,
-                                    PlayerDeleteResponse, PlayerFindResponse,
-                                    PlayerUpdateRequest, PlayerUpdateResponse)
+from internal.models.player import (
+    PlayerCreateRequest,
+    PlayerCreateResponse,
+    PlayerDeleteResponse,
+    PlayerFindResponse,
+    PlayerUpdateRequest,
+    PlayerUpdateResponse,
+)
 from internal.repos.player import PlayerRepo
 from internal.repos.postgresql import get_session
 from internal.services.player import PlayerService
