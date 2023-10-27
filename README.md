@@ -1,7 +1,10 @@
 # Fast API
 
-RESTful-api implemented using Fast-API framework, followed by hexagon structure.
-DB: postgreSQL
+RESTful-api implemented using Fast-API framework:
+
+- hexagon structure
+- HTTP methods: CRUD
+- PostgreSQL
 
 ## pre installation
 
@@ -43,3 +46,7 @@ DB: postgreSQL
    cd /fast-api/backend/src
    ./cmd/run.sh
 ```
+
+## swager
+
+![alt text](https://github.com/bohuang-work/fast-api/blob/main/fastAPI.png)
