@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class PostgresqlConfig(BaseSettings):
-    host: str = Field("127.0.0.1", alias="POSTGRESQL_HOST")
+    host: str = Field("postgresql", alias="POSTGRESQL_HOST")
     port: str = Field("5432", alias="POSTGRESQL_PORT")
     database: str = Field("playerdb", alias="POSTGRES_DB")
     user: str = Field("admin", alias="POSTGRESQL_USER")

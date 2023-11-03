@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class AppConfig(BaseSettings):
-    host: str = Field("127.0.0.1", alias="APP_HOST")
+    host: str = Field("0.0.0.0", alias="APP_HOST")
     port: int = Field(8080, alias="APP_PORT")
     reload: bool = Field(True, alias="APP_RELOAD")
 

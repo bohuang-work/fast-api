@@ -13,43 +13,14 @@ RESTful-api implemented using Fast-API framework:
 
 ## setup
 
-1. create a python virtual environment and activate it:
+1. run docker compose to start API and postgresDB
 
 ```
-   python3 -m venv venv
-   source venv/bin/activate
+   cd backend
+   docker docker-compose up
 ```
 
-2. install poetry
-
-```
-   python3 -m pip install poetry
-```
-
-3. install all dependencies using poetry:
-
-```
-   cd backend/
-   poetry install
-```
-
-4. run postgeSQL using docker compose:
-
-```
-   open a new terminal
-   cd fast-api/docker/
-   docker-compose up
-```
-
-5. run backend service:
-
-```
-   back to the venv terminal
-   cd /fast-api/backend/src
-   ./cmd/run.sh
-```
-
-6. open:
+2. open:
    http://127.0.0.1:8080/docs
 
 ## swager
