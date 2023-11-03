@@ -37,7 +37,7 @@ RESTful-api implemented using Fast-API framework:
 1. run docker compose to start API and postgresDB
 
 ```
-   cd backend
+   cd backend/
    docker docker-compose up
 ```
 

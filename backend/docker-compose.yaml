@@ -16,7 +16,7 @@ services:
       - ./postgres/data:/var/lib/postgresql/data
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  backend:
+  player:
     build: .
     container_name: player_service
     ports:
