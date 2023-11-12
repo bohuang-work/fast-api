@@ -1,0 +1,23 @@
+backend:
+  image:
+    repository: registry.localhost:32000/backend
+    tag: latest
+  resources:
+    limits:
+      cpu: 400m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+migrations:
+  image:
+    repository: registry.localhost:32000/migrations
+    tag: latest
+  resources:
+    limits:
+      cpu: 400m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi

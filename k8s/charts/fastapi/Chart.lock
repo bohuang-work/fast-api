@@ -1,0 +1,9 @@
+dependencies:
+- name: migrations
+  repository: file://migrations
+  version: 0.1.0
+- name: backend
+  repository: file://backend
+  version: 0.1.0
+digest: sha256:a22f5960ef02b53fac19174f09627058ede479015e3c210e43fe53f6bcf67930
+generated: "2023-11-12T18:33:12.345745+01:00"

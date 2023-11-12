@@ -1,0 +1,70 @@
+version: "3"
+
+vars:
+  RELEASE_NAME: fastapi
+  FASTAPI_CHART: ../../charts/fastapi
+  POSTGRESQL_VERSION: 12.8.2 # app version: 15.4.0
+
+tasks:
+  create-k3d:
+    desc: Create k3d cluster
+    cmds:
+      - k3d cluster create fastapi --config k3d-cluster.yml
+
+  delete-k3d:
+    desc: Delete k3d cluster
+    cmds:
+      - k3d cluster delete fastapi
+
+  # https://artifacthub.io/packages/helm/bitnami/postgresql
+  install-postgresql:
+    desc: Install postgresql
+    cmds:
+      - helm repo add bitnami https://charts.bitnami.com/bitnami
+      - helm install postgresql bitnami/postgresql --version {{.POSTGRESQL_VERSION}} --values values.postgresql.yaml
+
+  uninstall-postgresql:
+    desc: Uninstall postgresql
+    cmds:
+      - helm delete postgresql
+
+  purge-postgresql:
+    desc: Purge postgresql
+    cmds:
+      - cmd: task uninstall-postgresql
+        ignore_error: true
+      - kubectl delete pvc data-postgresql-0
+
+  port-forward-postgresql:
+    desc: Port forward postgresql
+    cmds:
+      - lsof -t -i:5432 | xargs -r kill -9
+      - kubectl port-forward postgresql-0 5432:5432
+
+  shell-postgresql:
+    desc: Log into postgresql shell
+    cmds:
+      - |
+        export POSTGRES_ADMIN_PASSWORD=$(kubectl get secret --namespace default postgresql -o jsonpath="{.data.postgres-password}" | base64 -d) &&
+        PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U admin -d playerdb -p 5432
+  
+  install-fastapi:
+    desc: deploy fastapi to local k3d cluster
+    cmds:
+      - cmd: |
+          helm upgrade --install fastapi {{ .FASTAPI_CHART }} -f values.k3d.yaml
+
+  generate-charts:
+    desc: Generate charts
+    cmds:
+      - cd ../../../k8s/charts/fastapi && task update-dependency
+  
+  build-and-push-migrations:
+    desc: build migrations docker image
+    cmds:
+      - cd ../../../migrations && task build-and-push-migrations
+
+  build-and-push-backend:
+    desc: build backend docker image
+    cmds:
+      - cd ../../../backend && task build-and-push-backend

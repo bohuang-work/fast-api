@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  update-dependency:
+    desc: Generate helm dependencies
+    cmds:
+      - helm dependency update

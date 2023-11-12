@@ -1,0 +1,57 @@
+version: '3'
+
+env:
+  BUILD_CACHE: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+
+vars:
+  # REGISTRY: docker.io
+  REGISTRY: 'registry.localhost:32000'
+  GIT_HASH:
+    sh: git log -1 --format=%h
+  GIT_TAG:
+    sh: git describe --tags --always
+
+tasks:
+  # Build ------------------------------------
+  build-migrations:
+    desc: Build migrations
+    cmds:
+      - |
+        docker -l warn build \
+        {{- if not .BUILD_CACHE }}--no-cache \{{end}}
+        --build-arg GIT_HASH={{.GIT_HASH}} \
+        --build-arg GIT_TAG={{.GIT_TAG}} \
+        --tag {{.REGISTRY}}/migrations:latest \
+        --file Dockerfile .
+
+  push-migrations:
+    desc: push migrations docker image to k3d local docker registry
+    cmds:
+      - | 
+        docker push {{.REGISTRY}}/migrations:latest
+
+  build-and-push-migrations:
+    desc: build and push migrations docker image
+    cmds:
+      - task build-migrations
+      - task push-migrations
+
+  run-migrations:
+    desc: Run migrations
+    deps: [build-migrations]
+    cmds:
+      - |
+        docker run -it --rm --network="host" \
+        {{.REGISTRY}}/migrations:latest
+
+  create-venv:
+    desc: create python virtual environment
+    cmds: 
+      - python3.11 -m venv venv
+  
+  freeze-requirements:
+    desc: freeze the dependencies into requirements txt file.
+    cmds: 
+      - python3.11 -m pip freeze > requirements.txt
