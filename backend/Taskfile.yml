@@ -1,0 +1,41 @@
+version: "3"
+
+env:
+  BUILD_CACHE: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+
+vars:
+  BUILD_TYPE: "prod"
+  REGISTRY: "registry.localhost:32000"
+  GIT_HASH:
+    sh: git log -1 --format=%h
+  GIT_TAG:
+    sh: git describe --tags --always
+
+tasks:
+  # Build ------------------------------------
+  build-backend:
+    desc: Build Backend
+    cmds:
+      - |
+        docker -l warn build \
+        {{- if not .BUILD_CACHE }}--no-cache \{{end}}
+        --build-arg BUILD_TYPE={{.BUILD_TYPE}} \
+        --build-arg GIT_HASH={{.GIT_HASH}} \
+        --build-arg GIT_TAG={{.GIT_TAG}} \
+        --target {{.BUILD_TYPE}} \
+        --tag {{.REGISTRY}}/backend:latest \
+        --file Dockerfile .
+  
+  push-backend:
+    desc: push Backend docker image to k3d docker registry
+    cmds:
+      - | 
+        docker push {{.REGISTRY}}/backend:latest
+
+  build-and-push-backend:
+    desc: build and push backend
+    cmds:
+      - task build-backend
+      - task push-backend
