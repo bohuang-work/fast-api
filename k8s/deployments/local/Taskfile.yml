@@ -53,6 +53,11 @@ tasks:
     cmds:
       - cmd: |
           helm upgrade --install fastapi {{ .FASTAPI_CHART }} -f values.k3d.yaml
+  
+  uninstall-fastapi:
+    desc: Uninstall fastapi
+    cmds:
+      - helm delete fastapi
 
   generate-charts:
     desc: Generate charts
