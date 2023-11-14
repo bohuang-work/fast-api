@@ -32,7 +32,9 @@ RESTful-api implemented using Fast-API framework:
 - Docker
 - Python >= 3.11
 
-## setup
+## Deployments
+
+#### docker compose
 
 1. run docker compose to start API and postgresDB
 
@@ -43,6 +45,57 @@ RESTful-api implemented using Fast-API framework:
 
 2. make sure 8080 is free, then open swagger:
    http://127.0.0.1:8080/docs
+
+#### k3d
+
+use k3d to create a single Node cluster locally for deployments.
+
+1. install automation tool "task" and k3d:
+
+```
+   ./bootstrap.sh
+   ./setup.sh
+```
+
+2. create k3d cluster:
+
+```
+   cd k8s/deployments/local
+   task create-k3d
+```
+
+3. install postgres:
+
+```
+   task install-postgresql
+```
+
+4. update helm charts:
+
+```
+   task generate-charts
+```
+
+5. build and push migration and backend image to k3d local docker registry:
+
+```
+   task build-and-push-migrations
+   task build-and-push-backend
+```
+
+6. deploy fastapi:
+
+```
+   task install-fastapi
+```
+
+7. port forward apis and visite swagger:
+
+```
+   kubectl port-forward  fastapi-backend-<pod id> 8080:8080
+```
+
+http://127.0.0.1:8080/docs
 
 ## swager
 
